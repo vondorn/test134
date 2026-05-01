@@ -13,8 +13,6 @@ export class AppController {
   }
 
   private ack(context: RmqContext) {
-    const channel = context.getChannelRef();
-    const originalMsg = context.getMessage();
-    channel.ack(originalMsg); 
+    context.getChannelRef().ack(context.getMessage());
   }
 }
