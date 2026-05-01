@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
-import { TelegramService } from './telegram/telegram.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TelegramModule } from './telegram/telegram.module';
-import { RedisModule, RedisService } from '@songkeys/nestjs-redis';
+import { RedisModule } from '@songkeys/nestjs-redis';
 
 @Module({
   imports: [
@@ -12,14 +10,17 @@ import { RedisModule, RedisService } from '@songkeys/nestjs-redis';
       isGlobal: true, 
     }),
     TelegramModule,
-    RedisModule.forRoot({
-      config: {
-        host: 'localhost',
-        port: 6379,
-      },
-    })
+    RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        config: {
+          host: configService.get<string>('REDIS_HOST'),
+          port: configService.get<number>('REDIS_PORT'),
+        },
+      }),
+      inject: [ConfigService],
+    }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController]
 })
 export class AppModule {}

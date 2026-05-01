@@ -11,7 +11,7 @@ export class AppController {
   constructor(private telegramService: TelegramService, private redisService: RedisService) {
     this.redis = this.redisService.getClient();
   }
-    
+
   @EventPattern('order_created')
   async handleOrderCreated(@Payload() data: any, @Ctx() context: RmqContext) {
     console.log('Message:', data);
