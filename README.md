@@ -8,6 +8,10 @@
     ```bash
     docker compose up
     ```
+- в каждом сервисе ввести команду:
+    ```
+    npm install
+    ```
 - на странице документации либо через Postman отправить POST-запрос на `http://localhost:3002/api/orders`
 - пример body:
   ```
