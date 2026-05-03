@@ -13,17 +13,20 @@ async function bootstrap() {
   const rmqUrl = configService.get<string>('RMQ_URL')!;
   const rmqQueue = configService.get<string>('RMQ_QUEUE')!;
 
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-    transport: Transport.RMQ,
-    options: {
-      urls: [rmqUrl],
-      queue: rmqQueue,
-      noAck: false,
-      queueOptions: {
-        durable: true,
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.RMQ,
+      options: {
+        urls: [rmqUrl],
+        queue: rmqQueue,
+        noAck: false,
+        queueOptions: {
+          durable: true,
+        },
       },
     },
-  });
+  );
 
   await app.listen();
   logger.log('Сервис Consumer запущен.');

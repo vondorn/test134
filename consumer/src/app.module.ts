@@ -7,7 +7,7 @@ import { RedisModule } from '@songkeys/nestjs-redis';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, 
+      isGlobal: true,
     }),
     TelegramModule,
     RedisModule.forRootAsync({
@@ -21,6 +21,6 @@ import { RedisModule } from '@songkeys/nestjs-redis';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AppController]
+  controllers: [AppController],
 })
 export class AppModule {}

@@ -7,9 +7,12 @@ import { RedisService } from '@songkeys/nestjs-redis';
 @Controller()
 export class AppController {
   private redis: Redis;
-  private readonly logger: Logger;
 
-  constructor(private telegramService: TelegramService, private redisService: RedisService) {
+  constructor(
+    private telegramService: TelegramService,
+    private redisService: RedisService,
+    private readonly logger: Logger,
+  ) {
     this.redis = this.redisService.getClient();
     this.logger = new Logger(AppController.name);
   }
@@ -41,9 +44,14 @@ export class AppController {
       await this.redis.del(redisKey);
 
       if (error instanceof Error) {
-        this.logger.error(`Ошибка обработки заказа ${orderId}: ${error.message}`, error.stack);
+        this.logger.error(
+          `Ошибка обработки заказа ${orderId}: ${error.message}`,
+          error.stack,
+        );
       } else {
-        this.logger.error(`Неизвестная ошибка при обработке заказа ${orderId}: ${String(error)}`);
+        this.logger.error(
+          `Неизвестная ошибка при обработке заказа ${orderId}: ${String(error)}`,
+        );
       }
     }
   }
