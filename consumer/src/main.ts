@@ -2,9 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
-
+  const logger = new Logger('Bootstrap');
   const appContext = await NestFactory.createApplicationContext(AppModule);
 
   const configService = appContext.get(ConfigService);
@@ -25,6 +26,6 @@ async function bootstrap() {
   });
 
   await app.listen();
+  logger.log('Сервис Consumer запущен.');
 }
 bootstrap();
-console.log('server started');

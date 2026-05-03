@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   rabbitmq:
     image: rabbitmq:3-management
@@ -19,19 +17,19 @@ services:
     ports:
       - "6379:6379"
 
-  producer:
-    build:
-      context: ./producer
-    container_name: producer
-    ports:
-      - "3002:3002"
-    env_file:
-      - ./producer/.env
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      redis:
-        condition: service_started
+  # producer:
+  #   build:
+  #     context: ./producer
+  #   container_name: producer
+  #   ports:
+  #     - "3002:3002"
+  #   env_file:
+  #     - ./producer/.env
+  #   depends_on:
+  #     rabbitmq:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_started
 
   consumer:
     build:

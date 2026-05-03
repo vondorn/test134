@@ -1,23 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Telegraf } from 'telegraf';
 
 @Injectable()
-export class TelegramService{
+export class TelegramService implements OnModuleInit {
+    private readonly logger = new Logger(TelegramService.name);
     private bot: Telegraf;
     private chatId: number;
 
     constructor(private configService: ConfigService) {
         const token = this.configService.get<string>('TG_BOT_TOKEN');
-        if (!token) {
-            throw new Error('токен не задан в .env файле');
-        }
         const id = this.configService.get<number>('TG_CHAT_ID');
-        if (!id) {
-            throw new Error('ID чата не задан в .env файле');
+
+        if (!token || !id) {
+            this.logger.error('Ошибка инициализации: TG_BOT_TOKEN или TG_CHAT_ID не найдены в .env');
+            throw new Error('Ошибка конфигурации Telegram');
         }
+
         this.bot = new Telegraf(token);
         this.chatId = id;
+    }
+
+    async onModuleInit() {
+        this.logger.log('Сервис Telegram инициализирован');
     }
 
     async sendMessage(message: string): Promise<void> {
@@ -25,9 +30,13 @@ export class TelegramService{
             await this.bot.telegram.sendMessage(this.chatId, message, {
                 parse_mode: 'HTML',
             });
-            console.log('сообщение отправлено');
+            this.logger.log('Сообщение успешно отправлено в Telegram');
         } catch (error) {
-            console.log(error);
+            if (error instanceof Error) {
+                this.logger.error(`Ошибка при отправке сообщения в Telegram: ${error.message}`, error.stack);
+            } else {
+                this.logger.error(`Неизвестная ошибка Telegram: ${String(error)}`);
+            }
             throw error;
         }
     }
