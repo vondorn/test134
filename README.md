@@ -5,13 +5,11 @@
 - отправить команду `/start` боту `@bot134431bot` в Telegram.
 - вставить `id` чата в файл `consumer/.env` в переменную `TG_CHAT_ID`
 - для поднятия контейнеров Producer, Consumer, RabbitMQ и Redis в корне проекта ввести команду:
-    ```bash
-    docker compose up
-    ```
-- в каждом сервисе ввести команду:
-    ```
-    npm install
-    ```
+
+  ```bash
+  docker compose up
+  ```
+
 - на странице документации либо через Postman отправить POST-запрос на `http://localhost:3002/api/orders`
 - пример body:
   ```
@@ -25,6 +23,10 @@
 
 Все команды запускаются из корневой папки каждого сервиса (`producer` / `consumer`).
 
+- **Зависимости:**
+  ```
+  npm install
+  ```
 - **Unit-тесты:**
   ```bash
   npm test
