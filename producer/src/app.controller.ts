@@ -1,7 +1,9 @@
 import { Controller, Post, Body, Logger, InternalServerErrorException } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('orders')
 @Controller('orders')
 export class AppController {
   private readonly logger = new Logger(AppController.name);
@@ -9,6 +11,9 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Создание нового заказа' })
+  @ApiResponse({ status: 201, description: 'Заказ успешно отправлен в очередь' })
+  @ApiResponse({ status: 500, description: 'Ошибка сервера очередей' })
   async createOrder(@Body() body: CreateOrderDto) {
     this.logger.log('Получен запрос на создание заказа');
 
