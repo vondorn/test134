@@ -1,12 +1,21 @@
 # Инструкция по запуску
 
-## 1. Запуск инфраструктуры
+## 1. Запуск инфраструктуры и проверка вручную
 
-Для поднятия контейнеров Producer, Consumer, RabbitMQ и Redis в корне проекта ввести команду:
-
-```bash
-docker compose up
-```
+- отправить команду `/start` боту `@bot134431bot` в Telegram.
+- вставить `id` чата в файл `consumer/.env` в переменную `TG_CHAT_ID`
+- для поднятия контейнеров Producer, Consumer, RabbitMQ и Redis в корне проекта ввести команду:
+    ```bash
+    docker compose up
+    ```
+- на странице документации либо через Postman отправить POST-запрос на `http://localhost:3002/api/orders`
+- пример body:
+  ```
+  {
+      "message": "текст"
+  }
+  ```
+- сообщение придет в Telegram от бота
 
 ## 2. Тестирование
 
@@ -29,16 +38,3 @@ docker compose up
 
 API-документация доступна по адресу:
 **[http://localhost:3002/api/docs](http://localhost:3002/api/docs)**
-
-## 4. Проверка вручную
-
-- отправить команду `/start` боту `@bot134431bot` в Telegram.
-- вставить `id` чата в файл `consumer/.env` в переменную `TG_CHAT_ID`
-- на странице документации либо через Postman отправить POST-запрос на `http://localhost:3002/api/orders`
-- пример body:
-  ```
-  {
-      "message": "текст"
-  }
-  ```
-- сообщение придет в Telegram от бота
