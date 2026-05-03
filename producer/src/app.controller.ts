@@ -12,10 +12,9 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('orders')
 @Controller('orders')
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    private readonly logger: Logger = new Logger(AppController.name),
-  ) {}
+  private readonly logger: Logger = new Logger(AppController.name);
+
+  constructor(private readonly appService: AppService) {}
 
   @Post()
   @ApiOperation({ summary: 'Создание нового заказа' })

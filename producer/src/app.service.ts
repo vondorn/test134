@@ -6,10 +6,9 @@ import { firstValueFrom, timeout } from 'rxjs';
 
 @Injectable()
 export class AppService {
-  constructor(
-    @Inject('ORDER_SERVICE') private client: ClientProxy,
-    private readonly logger: Logger = new Logger(AppService.name),
-  ) {}
+  private readonly logger = new Logger(AppService.name);
+
+  constructor(@Inject('ORDER_SERVICE') private client: ClientProxy) {}
 
   async createOrder(dto: CreateOrderDto) {
     const payload = {
