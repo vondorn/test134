@@ -7,12 +7,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, 
+      isGlobal: true,
     }),
     ClientsModule.registerAsync([
       {
         name: 'ORDER_SERVICE',
-        imports: [ConfigModule], 
+        imports: [ConfigModule],
         useFactory: (configService: ConfigService) => ({
           transport: Transport.RMQ,
           options: {

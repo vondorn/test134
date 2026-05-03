@@ -6,9 +6,10 @@ import { firstValueFrom, timeout } from 'rxjs';
 
 @Injectable()
 export class AppService {
-  private readonly logger = new Logger(AppService.name);
-
-  constructor(@Inject('ORDER_SERVICE') private client: ClientProxy) {}
+  constructor(
+    @Inject('ORDER_SERVICE') private client: ClientProxy,
+    private readonly logger: Logger = new Logger(AppService.name),
+  ) {}
 
   async createOrder(dto: CreateOrderDto) {
     const payload = {
@@ -18,6 +19,8 @@ export class AppService {
 
     this.logger.log(`Отправка заказа в очередь (id: ${payload.id})`);
 
-    return await firstValueFrom(this.client.emit('order_created', payload).pipe(timeout(5000)));
+    return await firstValueFrom(
+      this.client.emit('order_created', payload).pipe(timeout(5000)),
+    );
   }
 }

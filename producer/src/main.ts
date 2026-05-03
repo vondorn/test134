@@ -14,15 +14,16 @@ async function bootstrap() {
     .setDescription('API для создания заказов и отправки в RabbitMQ')
     .setVersion('1.0')
     .build();
-    
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
-  
-  const port = process.env.PORT || 3000;
 
+  const port = process.env.PORT || 3000;
 
   await app.listen(port);
   logger.log(`Server started on port ${port}`);
-  logger.log(`Swagger documentation available at: http://localhost:${port}/api/docs`);
+  logger.log(
+    `Swagger documentation available at: http://localhost:${port}/api/docs`,
+  );
 }
 bootstrap();
