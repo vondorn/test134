@@ -6,11 +6,8 @@ import { Telegraf } from 'telegraf';
 export class TelegramService implements OnModuleInit {
   private bot: Telegraf;
   private chatId: number;
-
-  constructor(
-    private configService: ConfigService,
-    private readonly logger: Logger = new Logger(TelegramService.name),
-  ) {
+  private readonly logger: Logger = new Logger(TelegramService.name);
+  constructor(private configService: ConfigService) {
     const token = this.configService.get<string>('TG_BOT_TOKEN');
     const id = this.configService.get<number>('TG_CHAT_ID');
 

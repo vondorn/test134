@@ -7,14 +7,12 @@ import { RedisService } from '@songkeys/nestjs-redis';
 @Controller()
 export class AppController {
   private redis: Redis;
-
+  private readonly logger: Logger = new Logger(AppController.name);
   constructor(
     private telegramService: TelegramService,
     private redisService: RedisService,
-    private readonly logger: Logger,
   ) {
     this.redis = this.redisService.getClient();
-    this.logger = new Logger(AppController.name);
   }
 
   @EventPattern('order_created')
