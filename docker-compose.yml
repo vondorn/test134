@@ -17,6 +17,7 @@ services:
     ports:
       - "6379:6379"
 
+
   producer:
     build:
       context: ./producer
